@@ -69,7 +69,7 @@ function iOS() {
 $(document).ready(function () {
 
     // Insert video muted if mobile, playing if desktop
-    if (true /*iOS()*/) {
+    if (iOS()) {
         $('body').prepend('<video playsinline loop autoplay muted><source src="outwest.mp4" type="video/mp4"></video>')
         syncAudioTrack(0)
     } else {
@@ -103,7 +103,6 @@ $(document).ready(function () {
                 $(this).off(handlers);
                 $('#head').css({ left: 'auto' });
                 $('video')[0].currentTime = (1 - headPos) * $('video')[0].duration;
-                syncAudioTrack(source.start((1 - headPos) * $('video')[0].duration))
             }
         };
         $(document).on(handlers);
@@ -126,11 +125,10 @@ $(document).ready(function () {
                 });
             },
             touchend: function (e) {
-                console.log(e)
                 $(this).off(touchHandlers);
                 $('#head').css({ left: 'auto' });
                 $('video')[0].currentTime = (1 - headPos) * $('video')[0].duration;
-                syncAudioTrack((1 - headPos) * $('video')[0].duration)
+                if (source) syncAudioTrack((1 - headPos) * $('video')[0].duration)
             }
         };
         $(document).on(touchHandlers);
