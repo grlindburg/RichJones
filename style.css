@@ -1,0 +1,55 @@
+body {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    padding:0;
+    margin:0;
+    background: black;
+    overflow: hidden;
+}
+
+video {
+    width: 100%;
+    position: relative;
+    display: block;
+}
+
+#map {
+    width: 95%;
+    position: absolute;
+    left: 50%;
+    bottom: -33%;
+    transform: rotate(10deg) translateX(-50%);
+    user-drag: none; 
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+#head {
+    position: absolute;
+    width: 75px;
+    height: 75px;
+    bottom: 2%;
+    right: 0;
+    background: url('rich-head.png');
+    background-size: cover;
+}
+
+.touchevents video {
+    padding-top: 50%;
+}
+
+.touchevents #map {    
+    bottom: 25%;
+}
+
+.touchevents #head {
+    bottom: 28%;
+    width: 50px;
+    height: 50px;
+}
+
