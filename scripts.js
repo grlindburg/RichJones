@@ -1,5 +1,6 @@
 var audioCtx = new (window.AudioContext || window.webkitAudioContext)()
 var source
+var buffer
 
 var audioData
 function loadAudio(callback) {
@@ -16,25 +17,21 @@ function loadAudio(callback) {
 
 function syncAudioTrack(time, video) {
     if (source) {
+        // Song is already loaded
         source.stop()
         newSource = audioCtx.createBufferSource()
-        loadAudio(function(audioData) {
-            audioCtx.decodeAudioData(audioData, function(buffer) {
-                newSource.buffer = buffer
-                newSource.connect(audioCtx.destination)
-                newSource.loop = true
-                source = newSource
-                source.start(0, time)
-                $('video')[0].currentTime = time
-            }, function(e) {
-                console.log('Error decoding audio data' + e.err)
-            })
-        })
+        newSource.buffer = buffer
+        newSource.connect(audioCtx.destination)
+        newSource.loop = true
+        source = newSource
+        source.start(0, time)
+        $('video')[0].currentTime = time
     } else {
         source = audioCtx.createBufferSource()
         loadAudio(function(audioData) {
             console.log(audioData)
-            audioCtx.decodeAudioData(audioData, function(buffer) {
+            audioCtx.decodeAudioData(audioData, function(theBuffer) {
+                buffer = theBuffer
                 source.buffer = buffer
                 source.connect(audioCtx.destination)
                 source.loop = true
