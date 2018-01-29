@@ -19,13 +19,13 @@ function syncAudioTrack(time, video) {
         source.stop()
         newSource = audioCtx.createBufferSource()
         loadAudio(function(audioData) {
-            console.log(audioData)
             audioCtx.decodeAudioData(audioData, function(buffer) {
                 newSource.buffer = buffer
                 newSource.connect(audioCtx.destination)
                 newSource.loop = true
                 source = newSource
                 source.start(0, time)
+                $('video')[0].currentTime = time
             }, function(e) {
                 console.log('Error decoding audio data' + e.err)
             })
@@ -128,7 +128,7 @@ $(document).ready(function () {
             touchend: function (e) {
                 $(this).off(touchHandlers);
                 $('#head').css({ left: 'auto' });
-                if (source) syncAudioTrack((1 - headPos) * $('video')[0].duration, $('video'))
+                if (source) syncAudioTrack((1 - headPos) * $('video')[0].duration)
             }
         };
         $(document).on(touchHandlers);
