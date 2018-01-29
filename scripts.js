@@ -14,7 +14,7 @@ function loadAudio(callback) {
     request.send()
 }
 
-function syncAudioTrack(time) {
+function syncAudioTrack(time, video) {
     if (source) {
         source.stop()
         newSource = audioCtx.createBufferSource()
@@ -39,6 +39,7 @@ function syncAudioTrack(time) {
                 source.connect(audioCtx.destination)
                 source.loop = true
                 source.start(0, time)
+                $('video')[0].currentTime = time
             }, function(e) {
                 console.log('Error decoding audio data' + e.err)
             })
@@ -69,7 +70,7 @@ function iOS() {
 $(document).ready(function () {
 
     // Insert video muted if mobile, playing if desktop
-    if (iOS()) {
+    if (true/*iOS()*/) {
         $('body').prepend('<video playsinline loop autoplay muted><source src="outwest.mp4" type="video/mp4"></video>')
         syncAudioTrack(0)
     } else {
@@ -127,8 +128,7 @@ $(document).ready(function () {
             touchend: function (e) {
                 $(this).off(touchHandlers);
                 $('#head').css({ left: 'auto' });
-                $('video')[0].currentTime = (1 - headPos) * $('video')[0].duration;
-                if (source) syncAudioTrack((1 - headPos) * $('video')[0].duration)
+                if (source) syncAudioTrack((1 - headPos) * $('video')[0].duration, $('video'))
             }
         };
         $(document).on(touchHandlers);
